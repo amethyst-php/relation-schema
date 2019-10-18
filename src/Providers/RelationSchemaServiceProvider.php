@@ -2,18 +2,18 @@
 
 namespace Amethyst\Providers;
 
+use Amethyst\Common\CommonServiceProvider;
 use Amethyst\Models\RelationSchema;
 use Amethyst\Observers\RelationSchemaObserver;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
-use Amethyst\Common\CommonServiceProvider;
 
 class RelationSchemaServiceProvider extends CommonServiceProvider
-{   
+{
     /**
      * @inherit
      */
-	public function register()
+    public function register()
     {
         parent::register();
 

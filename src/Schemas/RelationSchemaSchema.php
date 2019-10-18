@@ -25,8 +25,8 @@ class RelationSchemaSchema extends Schema
             Attributes\TextAttribute::make('target')
                 ->setRequired(true),
             Attributes\EnumAttribute::make('type', [
-                'MorphOne' => 'MorphOne',
-                'MorphMany' => 'MorphMany'
+                'MorphOne'  => 'MorphOne',
+                'MorphMany' => 'MorphMany',
             ])->setRequired(true),
             Attributes\TextAttribute::make('filter')
                 ->setRequired(true),

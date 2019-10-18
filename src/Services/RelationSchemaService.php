@@ -11,7 +11,7 @@ class RelationSchemaService
     {
         foreach (RelationSchema::all() as $relation) {
             $this->set($relation, false);
-        };
+        }
     }
 
     public function generate($target)
@@ -35,17 +35,16 @@ class RelationSchemaService
         ]);
 
         $source::morph_to_many(
-            $relation->name, 
-            $target, 
-            'target', 
-            config('amethyst.relation.data.relation.table'), 
-            'target_id', 
+            $relation->name,
+            $target,
+            'target',
+            config('amethyst.relation.data.relation.table'),
+            'target_id',
             'source_id'
         )
         ->using(config('amethyst.relation.data.relation.model'))
         ->withPivotValue('key', $relation->filter)
         ->withPivotValue('source_type', $relation->source);
-
 
         // Define inverse relationship if $relation->inverse is not null (contains name)
         if ($event) {
@@ -59,7 +58,6 @@ class RelationSchemaService
         $target = $this->getEntityClass($relation->target);
 
         if (!$model || !$target) {
-
             // Silent error, no needs to interrupt application for user-error
             return;
         }
