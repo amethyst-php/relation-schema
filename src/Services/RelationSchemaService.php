@@ -9,9 +9,9 @@ class RelationSchemaService
 {
     public function boot()
     {
-        RelationSchema::all()->map(function (RelationSchema $relation) {
+        foreach (RelationSchema::all() as $relation) {
             $this->set($relation, false);
-        });
+        };
     }
 
     public function generate($target)
