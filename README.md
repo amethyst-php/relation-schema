@@ -4,7 +4,13 @@
 
 [Amethyst](https://github.com/amethyst-php/amethyst) package.
 
-Create your own custom relations without altering any models
+Create your own custom relations between Models without altering the code.
+
+Current supported relationships:
+- MorphMany
+
+Future features:
+- Define inverse relationships (e.g. children and parent)
 
 # Requirements
 
