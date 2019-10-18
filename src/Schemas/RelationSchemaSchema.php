@@ -20,6 +20,16 @@ class RelationSchemaSchema extends Schema
                 ->setRequired(true)
                 ->setUnique(true),
             Attributes\LongTextAttribute::make('description'),
+            Attributes\TextAttribute::make('source')
+                ->setRequired(true),
+            Attributes\TextAttribute::make('target')
+                ->setRequired(true),
+            Attributes\EnumAttribute::make('type', [
+                'MorphOne' => 'MorphOne',
+                'MorphMany' => 'MorphMany'
+            ])->setRequired(true),
+            Attributes\TextAttribute::make('filter')
+                ->setRequired(true),
             Attributes\CreatedAtAttribute::make(),
             Attributes\UpdatedAtAttribute::make(),
             Attributes\DeletedAtAttribute::make(),

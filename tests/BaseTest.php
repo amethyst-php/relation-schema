@@ -18,6 +18,7 @@ abstract class BaseTest extends \Orchestra\Testbench\TestCase
     {
         return [
             \Amethyst\Providers\RelationSchemaServiceProvider::class,
+            \Amethyst\Providers\FooServiceProvider::class,
         ];
     }
 }
