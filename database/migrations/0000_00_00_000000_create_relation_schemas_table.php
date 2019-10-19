@@ -20,6 +20,7 @@ class CreateRelationSchemasTable extends Migration
             $table->string('source');
             $table->string('target');
             $table->string('filter');
+            $table->boolean('inverse')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

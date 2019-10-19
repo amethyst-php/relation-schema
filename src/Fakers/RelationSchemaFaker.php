@@ -22,6 +22,7 @@ class RelationSchemaFaker extends Faker
         $bag->set('source', 'foo');
         $bag->set('target', 'foo');
         $bag->set('filter', $faker->name);
+        $bag->set('inverse', 0);
 
         return $bag;
     }

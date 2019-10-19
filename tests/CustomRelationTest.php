@@ -13,7 +13,7 @@ class CustomRelationTest extends BaseTest
             'name'   => 'redChildren',
             'source' => 'foo',
             'target' => 'foo',
-            'type'   => 'MorphMany',
+            'type'   => 'MorphToMany',
             'filter' => 'redChildren',
         ]);
 
@@ -21,8 +21,17 @@ class CustomRelationTest extends BaseTest
             'name'   => 'blueChildren',
             'source' => 'foo',
             'target' => 'foo',
-            'type'   => 'MorphMany',
+            'type'   => 'MorphToMany',
             'filter' => 'blueChildren',
+        ]);
+
+        RelationSchema::create([
+            'name'   => 'parent',
+            'source' => 'foo',
+            'target' => 'foo',
+            'type'   => 'MorphToOne',
+            'filter' => 'blueChildren',
+            'inverse' => 1
         ]);
 
         $parent = Foo::create(['name' => 'Parent']);
@@ -45,6 +54,10 @@ class CustomRelationTest extends BaseTest
         $this->assertEquals(1, $parent->blueChildren->count());
         $this->assertEquals("select * from `amethyst_foos` inner join `amethyst_relations` on `amethyst_foos`.`id` = `amethyst_relations`.`source_id` where `amethyst_relations`.`target_id` = '1' and `amethyst_relations`.`target_type` = 'foo' and `amethyst_relations`.`key` = 'blueChildren' and `amethyst_relations`.`source_type` = 'foo' and `amethyst_foos`.`deleted_at` is null", $this->getQuery($parent->blueChildren()));
         $this->assertEquals('Child:Blue', $parent->blueChildren()->first()->name);
+
+        // Testing Blue Parent
+        $this->assertEquals('Parent', $blueChildren->parent->name);
+        $this->assertEquals(1, $blueChildren->parent()->count());
     }
 
     public function getQuery($builder)

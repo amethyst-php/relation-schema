@@ -30,6 +30,10 @@ class RelationSchemaSchema extends Schema
             ])->setRequired(true),
             Attributes\TextAttribute::make('filter')
                 ->setRequired(true),
+            Attributes\BooleanAttribute::make('inverse')
+                ->setDefault(function ($e) {
+                    return 0;
+                }),
             Attributes\CreatedAtAttribute::make(),
             Attributes\UpdatedAtAttribute::make(),
             Attributes\DeletedAtAttribute::make(),
