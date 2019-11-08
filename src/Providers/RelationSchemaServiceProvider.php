@@ -7,6 +7,7 @@ use Amethyst\Models\RelationSchema;
 use Amethyst\Observers\RelationSchemaObserver;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Container\Container;
 
 class RelationSchemaServiceProvider extends CommonServiceProvider
 {
@@ -19,9 +20,13 @@ class RelationSchemaServiceProvider extends CommonServiceProvider
 
         $this->app->register(\Amethyst\Providers\RelationServiceProvider::class);
 
-        $this->app->singleton('amethyst.relation-schema', function ($app) {
-            return new \Amethyst\Services\RelationSchemaService();
+        $this->app->singleton('amethyst.relation-schema', function (Container $app) {
+            return new \Amethyst\Services\RelationSchemaService($app);
         });
+
+        $this->app->bind('RelationSchema:MorphToMany', \Amethyst\Relations\MorphToMany::class);
+        $this->app->bind('RelationSchema:MorphToOne', \Amethyst\Relations\MorphToOne::class);
+
     }
 
     /**
@@ -36,5 +41,6 @@ class RelationSchemaServiceProvider extends CommonServiceProvider
         if (Schema::hasTable(Config::get('amethyst.relation-schema.data.relation-schema.table'))) {
             app('amethyst.relation-schema')->boot();
         }
+
     }
 }

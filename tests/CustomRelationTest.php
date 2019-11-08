@@ -4,60 +4,33 @@ namespace Amethyst\Tests;
 
 use Amethyst\Models\Foo;
 use Amethyst\Models\RelationSchema;
+use Symfony\Component\Yaml\Yaml;
 
 class CustomRelationTest extends BaseTest
 {
     public function testMorphManyRelation()
     {
         RelationSchema::create([
-            'name'   => 'redChildren',
-            'source' => 'foo',
-            'target' => 'foo',
+            'name'   => 'children',
             'type'   => 'MorphToMany',
-            'filter' => 'redChildren',
-        ]);
-
-        RelationSchema::create([
-            'name'   => 'blueChildren',
-            'source' => 'foo',
-            'target' => 'foo',
-            'type'   => 'MorphToMany',
-            'filter' => 'blueChildren',
-        ]);
-
-        RelationSchema::create([
-            'name'   => 'parent',
-            'source' => 'foo',
-            'target' => 'foo',
-            'type'   => 'MorphToOne',
-            'filter' => 'blueChildren',
-            'inverse' => 1
+            'data' => 'foo',
+            'payload' => Yaml::dump([
+                'target' => 'foo'
+            ])
         ]);
 
         $parent = Foo::create(['name' => 'Parent']);
+        $children = Foo::create(['name' => 'Child']);
 
-        $redChildren = Foo::create(['name' => 'Child:Red']);
-        $blueChildren = Foo::create(['name' => 'Child:Blue']);
-
-        $parent->redChildren()->attach($redChildren);
-        $parent->blueChildren()->attach($blueChildren);
+        $parent->children()->attach($children);
 
         // Testing parent
         $this->assertEquals('Parent', $parent->name);
 
         // Testing Red
-        $this->assertEquals(1, $parent->redChildren->count());
-        $this->assertEquals("select * from `amethyst_foos` inner join `amethyst_relations` on `amethyst_foos`.`id` = `amethyst_relations`.`source_id` where `amethyst_relations`.`target_id` = '1' and `amethyst_relations`.`target_type` = 'foo' and `amethyst_relations`.`key` = 'redChildren' and `amethyst_relations`.`source_type` = 'foo' and `amethyst_foos`.`deleted_at` is null", $this->getQuery($parent->redChildren()));
-        $this->assertEquals('Child:Red', $parent->redChildren()->first()->name);
-
-        // Testing Blue
-        $this->assertEquals(1, $parent->blueChildren->count());
-        $this->assertEquals("select * from `amethyst_foos` inner join `amethyst_relations` on `amethyst_foos`.`id` = `amethyst_relations`.`source_id` where `amethyst_relations`.`target_id` = '1' and `amethyst_relations`.`target_type` = 'foo' and `amethyst_relations`.`key` = 'blueChildren' and `amethyst_relations`.`source_type` = 'foo' and `amethyst_foos`.`deleted_at` is null", $this->getQuery($parent->blueChildren()));
-        $this->assertEquals('Child:Blue', $parent->blueChildren()->first()->name);
-
-        // Testing Blue Parent
-        $this->assertEquals('Parent', $blueChildren->parent->name);
-        $this->assertEquals(1, $blueChildren->parent()->count());
+        $this->assertEquals(1, $parent->children->count());
+        $this->assertEquals("select * from `amethyst_foos` inner join `amethyst_relations` on `amethyst_foos`.`id` = `amethyst_relations`.`source_id` where `amethyst_relations`.`target_id` = '1' and `amethyst_relations`.`target_type` = 'foo' and `amethyst_relations`.`source_type` = 'foo' and `amethyst_foos`.`deleted_at` is null", $this->getQuery($parent->children()));
+        $this->assertEquals('Child', $parent->children()->first()->name);
     }
 
     public function getQuery($builder)

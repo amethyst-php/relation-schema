@@ -3,10 +3,19 @@
 namespace Amethyst\Services;
 
 use Amethyst\Models\RelationSchema;
-use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Container\Container;
 
 class RelationSchemaService
 {
+    use \Amethyst\Concerns\GetClassNameByDataName;
+
+    protected $app;
+
+    public function __construct(Container $app)
+    {
+        $this->app = $app;
+    }
+
     public function boot()
     {
         foreach (RelationSchema::all() as $relation) {
@@ -19,76 +28,32 @@ class RelationSchemaService
         event(new \Railken\EloquentMapper\Events\EloquentMapUpdate($target));
     }
 
-    public function set(RelationSchema $relation, bool $event = true)
+    public function getRelationByType(string $type)
     {
-        $source = $this->getEntityClass($relation->source);
-        $target = $this->getEntityClass($relation->target);
+        return $this->app->make("RelationSchema:".$type);
+    }
 
-        $methods = [
-            'MorphToMany' => 'morph_to_many',
-            'MorphToOne' => 'morph_to_one'
-        ];
+    public function set(RelationSchema $relationSchema, bool $event = true)
+    {
+        $relation = $this->getRelationByType($relationSchema->type);
 
-        $method = $methods[$relation->type] ?? null;
-
-        if (!$method || !$source || !$target) {
-
-            // Silent error, no needs to interrupt application for user-error
-            return;
-        }
-
-        Relation::morphMap([
-            $relation->source => $source,
-            $relation->target => $target,
-        ]);
-
-        if (!$relation->inverse) {
-            $source::$method(
-                $relation->name,
-                $target,
-                'target',
-                config('amethyst.relation.data.relation.table'),
-                'target_id',
-                'source_id'
-            )
-            ->using(config('amethyst.relation.data.relation.model'))
-            ->withPivotValue('key', $relation->filter)
-            ->withPivotValue('source_type', $relation->source);
-        } else {
-            $source::$method(
-                $relation->name,
-                $source,
-                'source',
-                config('amethyst.relation.data.relation.table'),
-                'source_id',
-                'target_id'
-            )
-            ->using(config('amethyst.relation.data.relation.model'))
-            ->withPivotValue('key', $relation->filter)
-            ->withPivotValue('target_type', $relation->target);
-        }
+        $relation->define($relationSchema);
 
         if ($event) {
-            $this->generate($relation->source);
+            $this->generate($relationSchema->data);
         }
     }
 
     public function unset(RelationSchema $relation, string $oldName = null)
     {
-        $model = $this->getEntityClass($relation->source);
-        $target = $this->getEntityClass($relation->target);
+        $model = $this->getEntityClass($relation->data);
 
-        if (!$model || !$target || !(new $model)->hasRelation($oldName ? $oldName : $relation->name)) {
+        if (!$model || !(new $model)->hasDynamicRelation($oldName ? $oldName : $relation->name)) {
             // Silent error, no needs to interrupt application for user-error
             return;
         }
         $model::removeRelation($oldName ? $oldName : $relation->name);
 
-        $this->generate($relation->source);
-    }
-
-    public function getEntityClass(string $name)
-    {
-        return app('amethyst')->findModelByName($name);
+        $this->generate($relation->data);
     }
 }

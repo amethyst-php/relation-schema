@@ -11,4 +11,12 @@ return [
     'authorizer' => Amethyst\Authorizers\RelationSchemaAuthorizer::class,
     'faker'      => Amethyst\Fakers\RelationSchemaFaker::class,
     'manager'    => Amethyst\Managers\RelationSchemaManager::class,
+    'attributes' => [
+        'type' => [
+            'options' => [
+                'MorphToOne' => 'MorphToOne',
+                'MorphToMany' => 'MorphToMany'
+            ]
+        ]
+    ]
 ];

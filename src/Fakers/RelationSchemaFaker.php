@@ -4,6 +4,7 @@ namespace Amethyst\Fakers;
 
 use Faker\Factory;
 use Railken\Bag;
+use Symfony\Component\Yaml\Yaml;
 use Railken\Lem\Faker;
 
 class RelationSchemaFaker extends Faker
@@ -18,11 +19,9 @@ class RelationSchemaFaker extends Faker
         $bag = new Bag();
         $bag->set('name', $faker->name);
         $bag->set('description', $faker->text);
-        $bag->set('type', 'MorphOne');
-        $bag->set('source', 'foo');
-        $bag->set('target', 'foo');
-        $bag->set('filter', $faker->name);
-        $bag->set('inverse', 0);
+        $bag->set('type', 'MorphToOne');
+        $bag->set('data', 'foo');
+        $bag->set('payload', Yaml::dump(['target' => 'foo']));
 
         return $bag;
     }

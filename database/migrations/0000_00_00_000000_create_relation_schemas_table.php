@@ -17,12 +17,9 @@ class CreateRelationSchemasTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('type');
-            $table->string('source');
-            $table->string('target');
-            $table->string('filter');
-            $table->boolean('inverse')->default(0);
+            $table->string('data');
+            $table->text('payload');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

@@ -20,23 +20,14 @@ class RelationSchemaSchema extends Schema
                 ->setRequired(true)
                 ->setUnique(true),
             Attributes\LongTextAttribute::make('description'),
-            Attributes\TextAttribute::make('source')
+            Attributes\TextAttribute::make('data')
                 ->setRequired(true),
-            Attributes\TextAttribute::make('target')
+            Attributes\EnumAttribute::make('type', config('amethyst.relation-schema.data.relation-schema.attributes.type.options'))
                 ->setRequired(true),
-            Attributes\EnumAttribute::make('type', [
-                'MorphOne'  => 'MorphOne',
-                'MorphMany' => 'MorphMany',
-            ])->setRequired(true),
-            Attributes\TextAttribute::make('filter')
+            Attributes\YamlAttribute::make('payload')
                 ->setRequired(true),
-            Attributes\BooleanAttribute::make('inverse')
-                ->setDefault(function ($e) {
-                    return 0;
-                }),
             Attributes\CreatedAtAttribute::make(),
-            Attributes\UpdatedAtAttribute::make(),
-            Attributes\DeletedAtAttribute::make(),
+            Attributes\UpdatedAtAttribute::make()
         ];
     }
 }

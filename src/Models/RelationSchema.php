@@ -4,12 +4,10 @@ namespace Amethyst\Models;
 
 use Amethyst\Common\ConfigurableModel;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Railken\Lem\Contracts\EntityContract;
 
 class RelationSchema extends Model implements EntityContract
 {
-    use SoftDeletes;
     use ConfigurableModel;
 
     /**
