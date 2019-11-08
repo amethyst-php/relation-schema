@@ -22,7 +22,7 @@ class MorphToMany extends Base
             $payload->require('target') => $target
         ]);
 
-        $data::$method(
+        $relation = $data::$method(
             $relationSchema->name,
             $target,
             $payload->get('name', 'target'),
@@ -31,6 +31,20 @@ class MorphToMany extends Base
             $payload->get('relatedPivotKey', 'source_id')
         )
         ->using($payload->get('using', config('amethyst.relation.data.relation.model')))
-        ->withPivotValue('source_type', $relationSchema->data);
+        ->withPivotValue('source_type', $relationSchema->data)
+        ->withPivotValue('key', $payload->get('key', $relationSchema->data.":".$relationSchema->name));
+
+        if (!empty($payload->get('filter'))) {
+            $qb = new \Amethyst\CallCatcher;
+        	$this->filter($qb, $target, $payload->get('filter'));
+            
+            foreach ($qb->calls as $call) {
+
+                $method = $call[0];
+                if (!in_array($method, ['getQuery', 'from'])) {
+                    $relation->$method(...$call[1]);
+                }
+            }
+    	}
 	}
 }
