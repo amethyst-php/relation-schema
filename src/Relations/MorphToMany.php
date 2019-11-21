@@ -25,13 +25,13 @@ class MorphToMany extends Base
         $relation = $data::$method(
             $relationSchema->name,
             $target,
-            $payload->get('name', 'target'),
+            $payload->get('name', 'source'),
             $payload->get('table', config('amethyst.relation.data.relation.table')),
-            $payload->get('foreignPivotKey', 'target_id'),
-            $payload->get('relatedPivotKey', 'source_id')
+            $payload->get('relatedPivotKey', 'source_id'),
+            $payload->get('foreignPivotKey', 'target_id')
         )
         ->using($payload->get('using', config('amethyst.relation.data.relation.model')))
-        ->withPivotValue('source_type', $relationSchema->data)
+        ->withPivotValue('target_type', $payload->require('target'))
         ->withPivotValue('key', $payload->get('key', $relationSchema->data.":".$relationSchema->name));
 
         if (!empty($payload->get('filter'))) {
