@@ -24,21 +24,11 @@ class Base
 
 	public function filter($relation, $class, $filter)
 	{
-        $filter = new FilterScope(
-            function (Model $model) use ($class) {
-                return app('amethyst')->newManagerByModel(
-                    $class,
-                    new \Railken\Lem\Agents\SystemAgent()
-                )->getAttributes()
-                ->map(function ($attribute) {
-                    return $attribute->getName();
-                })->values()->toArray();
-            },
-            $filter, 
-            [],
-            []
+        app('amethyst')->filter(
+            $query,
+            $filter,
+            new $class,
+            new \Railken\Lem\Agents\SystemAgent()
         );
-
-        $filter->apply($relation, new $class);
 	}
 }
