@@ -4,6 +4,7 @@ namespace Amethyst\Services;
 
 use Amethyst\Models\RelationSchema;
 use Illuminate\Container\Container;
+use Amethyst\Common\Exceptions\DataNotFoundException;
 
 class RelationSchemaService
 {
@@ -19,7 +20,11 @@ class RelationSchemaService
     public function boot()
     {
         foreach (RelationSchema::all() as $relation) {
-            $this->set($relation, false);
+            try {
+                $this->set($relation, false);
+            } catch (DataNotFoundException $e) {
+                // Ignore data not found error
+            }
         }
     }
 
