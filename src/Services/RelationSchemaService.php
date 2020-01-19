@@ -4,7 +4,7 @@ namespace Amethyst\Services;
 
 use Amethyst\Models\RelationSchema;
 use Illuminate\Container\Container;
-use Amethyst\Common\Exceptions\DataNotFoundException;
+use Amethyst\Core\Exceptions\DataNotFoundException;
 
 class RelationSchemaService
 {

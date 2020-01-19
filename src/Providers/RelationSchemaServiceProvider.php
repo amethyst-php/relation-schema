@@ -2,7 +2,7 @@
 
 namespace Amethyst\Providers;
 
-use Amethyst\Common\CommonServiceProvider;
+use Amethyst\Core\Providers\CommonServiceProvider;
 use Amethyst\Models\RelationSchema;
 use Amethyst\Observers\RelationSchemaObserver;
 use Illuminate\Support\Facades\Config;
