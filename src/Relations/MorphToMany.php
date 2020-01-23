@@ -34,6 +34,9 @@ class MorphToMany extends Base
         ->withPivotValue('target_type', $payload->require('target'))
         ->withPivotValue('key', $payload->get('key', $relationSchema->data.":".$relationSchema->name));
 
+        app('amethyst')->pushMorphRelation('relation', 'source', $relationSchema->data);
+        app('amethyst')->pushMorphRelation('relation', 'target', $payload->require('target'));
+
         if (!empty($payload->get('filter'))) {
             $qb = new \Amethyst\CallCatcher;
         	$this->filter($qb, $target, $payload->get('filter'));
