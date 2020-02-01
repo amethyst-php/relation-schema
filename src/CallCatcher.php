@@ -4,8 +4,8 @@ namespace Amethyst;
 
 class CallCatcher
 {
-	public $calls;
-	
+    public $calls;
+
     public function __call($method, $args)
     {
         $this->calls[] = [$method, $args];

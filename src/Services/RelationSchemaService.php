@@ -2,9 +2,9 @@
 
 namespace Amethyst\Services;
 
+use Amethyst\Core\Exceptions\DataNotFoundException;
 use Amethyst\Models\RelationSchema;
 use Illuminate\Container\Container;
-use Amethyst\Core\Exceptions\DataNotFoundException;
 
 class RelationSchemaService
 {
@@ -35,7 +35,7 @@ class RelationSchemaService
 
     public function getRelationByType(string $type)
     {
-        return $this->app->make("RelationSchema:".$type);
+        return $this->app->make('RelationSchema:'.$type);
     }
 
     public function set(RelationSchema $relationSchema, bool $event = true)
@@ -53,7 +53,7 @@ class RelationSchemaService
     {
         $model = $this->getEntityClass($relation->data);
 
-        if (!$model || !(new $model)->hasDynamicRelation($oldName ? $oldName : $relation->name)) {
+        if (!$model || !(new $model())->hasDynamicRelation($oldName ? $oldName : $relation->name)) {
             // Silent error, no needs to interrupt application for user-error
             return;
         }

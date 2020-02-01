@@ -4,8 +4,8 @@ namespace Amethyst\Fakers;
 
 use Faker\Factory;
 use Railken\Bag;
-use Symfony\Component\Yaml\Yaml;
 use Railken\Lem\Faker;
+use Symfony\Component\Yaml\Yaml;
 
 class RelationSchemaFaker extends Faker
 {

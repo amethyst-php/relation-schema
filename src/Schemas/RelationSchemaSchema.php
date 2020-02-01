@@ -27,7 +27,7 @@ class RelationSchemaSchema extends Schema
             Attributes\YamlAttribute::make('payload')
                 ->setRequired(true),
             Attributes\CreatedAtAttribute::make(),
-            Attributes\UpdatedAtAttribute::make()
+            Attributes\UpdatedAtAttribute::make(),
         ];
     }
 }

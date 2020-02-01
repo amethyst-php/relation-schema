@@ -3,14 +3,13 @@
 namespace Amethyst\Relations;
 
 use Amethyst\Models\RelationSchema;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 class BelongsTo extends Base
 {
-	protected $name = 'belongs_to';
+    protected $name = 'belongs_to';
 
-	public function define(RelationSchema $relationSchema)
-	{
+    public function define(RelationSchema $relationSchema)
+    {
         $payload = $this->extractPayload($relationSchema);
 
         $data = $this->getEntityClass($relationSchema->data);
@@ -21,5 +20,5 @@ class BelongsTo extends Base
             $relationSchema->name,
             $target
         );
-	}
+    }
 }

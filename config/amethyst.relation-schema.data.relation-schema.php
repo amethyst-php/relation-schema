@@ -14,10 +14,10 @@ return [
     'attributes' => [
         'type' => [
             'options' => [
-                'MorphToOne' => 'MorphToOne',
+                'MorphToOne'  => 'MorphToOne',
                 'MorphToMany' => 'MorphToMany',
-                'BelongsTo' => 'BelongsTo'
-            ]
-        ]
-    ]
+                'BelongsTo'   => 'BelongsTo',
+            ],
+        ],
+    ],
 ];

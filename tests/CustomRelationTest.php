@@ -2,8 +2,8 @@
 
 namespace Amethyst\Tests;
 
-use Amethyst\Models\Foo;
 use Amethyst\Models\Bar;
+use Amethyst\Models\Foo;
 use Amethyst\Models\RelationSchema;
 use Symfony\Component\Yaml\Yaml;
 
@@ -12,12 +12,12 @@ class CustomRelationTest extends BaseTest
     public function testBasicMorphDef()
     {
         RelationSchema::create([
-            'name'   => 'children',
-            'type'   => 'MorphToMany',
-            'data' => 'foo',
+            'name'    => 'children',
+            'type'    => 'MorphToMany',
+            'data'    => 'foo',
             'payload' => Yaml::dump([
                 'target' => 'bar',
-            ])
+            ]),
         ]);
 
         $parent = Foo::create(['name' => 'Parent']);
@@ -34,13 +34,13 @@ class CustomRelationTest extends BaseTest
     public function testBasicMorphCustomKey()
     {
         RelationSchema::create([
-            'name'   => 'children',
-            'type'   => 'MorphToMany',
-            'data' => 'foo',
+            'name'    => 'children',
+            'type'    => 'MorphToMany',
+            'data'    => 'foo',
             'payload' => Yaml::dump([
                 'target' => 'bar',
-                'key' => 'customKey'
-            ])
+                'key'    => 'customKey',
+            ]),
         ]);
 
         $parent = Foo::create(['name' => 'Parent']);
@@ -57,35 +57,35 @@ class CustomRelationTest extends BaseTest
     public function testBasicMorphCustomSubScope()
     {
         RelationSchema::create([
-            'name'   => 'children',
-            'type'   => 'MorphToMany',
-            'data' => 'foo',
+            'name'    => 'children',
+            'type'    => 'MorphToMany',
+            'data'    => 'foo',
             'payload' => Yaml::dump([
                 'target' => 'bar',
-                'key' => 'bar:children',
-            ])
+                'key'    => 'bar:children',
+            ]),
         ]);
 
         RelationSchema::create([
-            'name'   => 'childrenChild',
-            'type'   => 'MorphToMany',
-            'data' => 'foo',
+            'name'    => 'childrenChild',
+            'type'    => 'MorphToMany',
+            'data'    => 'foo',
             'payload' => Yaml::dump([
                 'target' => 'bar',
-                'key' => 'bar:children',
-                'filter' => 'name ct "Child"'
-            ])
+                'key'    => 'bar:children',
+                'filter' => 'name ct "Child"',
+            ]),
         ]);
 
         RelationSchema::create([
-            'name'   => 'childrenFlux',
-            'type'   => 'MorphToMany',
-            'data' => 'foo',
+            'name'    => 'childrenFlux',
+            'type'    => 'MorphToMany',
+            'data'    => 'foo',
             'payload' => Yaml::dump([
                 'target' => 'bar',
-                'key' => 'bar:children',
-                'filter' => 'name ct "Flux"'
-            ])
+                'key'    => 'bar:children',
+                'filter' => 'name ct "Flux"',
+            ]),
         ]);
 
         $parent = Foo::create(['name' => 'Parent']);
