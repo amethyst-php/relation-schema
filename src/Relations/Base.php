@@ -5,6 +5,8 @@ namespace Amethyst\Relations;
 use Amethyst\Models\RelationSchema;
 use Railken\Bag;
 use Symfony\Component\Yaml\Yaml;
+use Illuminate\Database\Eloquent\Model;
+use Railken\EloquentMapper\Scopes\FilterScope;
 
 class Base
 {
@@ -20,13 +22,29 @@ class Base
         return new Bag(Yaml::parse($relationSchema->payload));
     }
 
-    public function filter($relation, $class, $filter)
+    public function filterTarget($relation, Model $target, $filter)
     {
-        app('amethyst')->filter(
-            $query,
-            $filter,
-            new $class(),
-            new \Railken\Lem\Agents\SystemAgent()
-        );
+        if (empty($filter)) {
+            return;
+        }
+
+        $qb = new \Amethyst\CallCatcher();
+
+        $qb->setModel($target);
+        $this->filter($qb, $filter);
+
+        foreach ($qb->calls as $call) {
+            $method = $call[0];
+            if (!in_array($method, ['getQuery', 'from'], true)) {
+                $relation->$method(...$call[1]);
+            }
+        }
+    }
+
+    public function filter($query, $filter)
+    {
+        $scope = new FilterScope();
+
+        $scope->apply($query, strval($filter));
     }
 }

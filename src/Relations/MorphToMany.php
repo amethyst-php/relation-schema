@@ -17,11 +17,6 @@ class MorphToMany extends Base
         $target = $this->getEntityClass($payload->require('target'));
         $method = $this->getName();
 
-        Relation::morphMap([
-            $relationSchema->data       => $data,
-            $payload->require('target') => $target,
-        ]);
-
         $relation = $data::$method(
             $relationSchema->name,
             $target,
@@ -34,19 +29,6 @@ class MorphToMany extends Base
         ->withPivotValue('target_type', $payload->require('target'))
         ->withPivotValue('key', $payload->get('key', $relationSchema->data.':'.$relationSchema->name));
 
-        app('amethyst')->pushMorphRelation('relation', 'source', $relationSchema->data);
-        app('amethyst')->pushMorphRelation('relation', 'target', $payload->require('target'));
-
-        if (!empty($payload->get('filter'))) {
-            $qb = new \Amethyst\CallCatcher();
-            $this->filter($qb, $target, $payload->get('filter'));
-
-            foreach ($qb->calls as $call) {
-                $method = $call[0];
-                if (!in_array($method, ['getQuery', 'from'], true)) {
-                    $relation->$method(...$call[1]);
-                }
-            }
-        }
+        $this->filterTarget($relation, $target, $payload->get('filter'));
     }
 }
