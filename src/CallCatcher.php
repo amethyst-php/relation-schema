@@ -18,11 +18,11 @@ class CallCatcher
 
     public function setModel(Model $model)
     {
-    	$this->model = $model;
+        $this->model = $model;
     }
 
     public function getModel(): Model
     {
-    	return $this->model;
+        return $this->model;
     }
 }

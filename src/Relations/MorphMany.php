@@ -3,7 +3,6 @@
 namespace Amethyst\Relations;
 
 use Amethyst\Models\RelationSchema;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 class MorphMany extends Base
 {

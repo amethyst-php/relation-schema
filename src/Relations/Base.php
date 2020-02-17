@@ -3,10 +3,10 @@
 namespace Amethyst\Relations;
 
 use Amethyst\Models\RelationSchema;
-use Railken\Bag;
-use Symfony\Component\Yaml\Yaml;
 use Illuminate\Database\Eloquent\Model;
+use Railken\Bag;
 use Railken\EloquentMapper\Scopes\FilterScope;
+use Symfony\Component\Yaml\Yaml;
 
 class Base
 {
