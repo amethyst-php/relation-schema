@@ -27,6 +27,7 @@ class RelationSchemaServiceProvider extends CommonServiceProvider
         $this->app->bind('RelationSchema:MorphToMany', \Amethyst\Relations\MorphToMany::class);
         $this->app->bind('RelationSchema:MorphToOne', \Amethyst\Relations\MorphToOne::class);
         $this->app->bind('RelationSchema:BelongsTo', \Amethyst\Relations\BelongsTo::class);
+        $this->app->bind('RelationSchema:MorphMany', \Amethyst\Relations\MorphMany::class);
     }
 
     /**
