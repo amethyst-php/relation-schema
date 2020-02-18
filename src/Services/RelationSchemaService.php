@@ -57,7 +57,8 @@ class RelationSchemaService
             // Silent error, no needs to interrupt application for user-error
             return;
         }
-        $model::removeRelation($oldName ? $oldName : $relation->name);
+        
+        $model->removeRelation($oldName ? $oldName : $relation->name);
 
         $this->generate($relation->data);
     }

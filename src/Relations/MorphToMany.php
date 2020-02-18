@@ -15,8 +15,8 @@ class MorphToMany extends Base
         $data = $this->getEntityClass($relationSchema->data);
         $target = $this->getEntityClass($payload->require('target'));
         $method = $this->getName();
-
-        $relation = $data::$method(
+        
+        $relation = $data->$method(
             $relationSchema->name,
             $target,
             $payload->get('name', 'source'),
