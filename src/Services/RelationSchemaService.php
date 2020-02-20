@@ -5,6 +5,8 @@ namespace Amethyst\Services;
 use Amethyst\Core\Exceptions\DataNotFoundException;
 use Amethyst\Models\RelationSchema;
 use Illuminate\Container\Container;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Schema;
 
 class RelationSchemaService
 {
@@ -19,6 +21,10 @@ class RelationSchemaService
 
     public function boot()
     {
+        if (!Schema::hasTable(Config::get('amethyst.relation-schema.data.relation-schema.table'))) {
+            return;
+        }
+        
         foreach (RelationSchema::all() as $relation) {
             try {
                 $this->set($relation, false);

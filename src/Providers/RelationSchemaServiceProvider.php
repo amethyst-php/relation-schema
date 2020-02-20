@@ -38,11 +38,5 @@ class RelationSchemaServiceProvider extends CommonServiceProvider
         parent::boot();
 
         RelationSchema::observe(RelationSchemaObserver::class);
-
-        $this->app->booted(function () {
-            if (Schema::hasTable(Config::get('amethyst.relation-schema.data.relation-schema.table'))) {
-                app('amethyst.relation-schema')->boot();
-            }
-        });
     }
 }
