@@ -24,7 +24,7 @@ class RelationSchemaService
         if (!Schema::hasTable(Config::get('amethyst.relation-schema.data.relation-schema.table'))) {
             return;
         }
-        
+
         foreach (RelationSchema::all() as $relation) {
             try {
                 $this->set($relation, false);

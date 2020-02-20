@@ -6,8 +6,6 @@ use Amethyst\Core\Providers\CommonServiceProvider;
 use Amethyst\Models\RelationSchema;
 use Amethyst\Observers\RelationSchemaObserver;
 use Illuminate\Container\Container;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Schema;
 
 class RelationSchemaServiceProvider extends CommonServiceProvider
 {
