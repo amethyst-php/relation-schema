@@ -7,11 +7,21 @@ use Amethyst\Models\RelationSchema;
 class RelationSchemaObserver
 {
     /**
-     * Handle the RelationSchema "saved" event.
+     * Handle the RelationSchema "created" event.
      *
      * @param \Amethyst\Models\RelationSchema $relation
      */
-    public function saved(RelationSchema $relation)
+    public function created(RelationSchema $relation)
+    {
+        app('amethyst.relation-schema')->set($relation);
+    }
+
+    /**
+     * Handle the RelationSchema "updated" event.
+     *
+     * @param \Amethyst\Models\RelationSchema $relation
+     */
+    public function updated(RelationSchema $relation)
     {
         if (isset($relation->getOriginal()['name'])) {
             $oldName = $relation->getOriginal()['name'];
