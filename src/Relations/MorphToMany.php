@@ -16,7 +16,6 @@ class MorphToMany extends Base
         $target = $this->getEntityClass($payload->require('target'));
         $method = $this->getName();
 
-
         if ($payload->get('inverse', false) === false) {
             $relation = $data->$method(
                 $relationSchema->name,
@@ -41,7 +40,6 @@ class MorphToMany extends Base
             )
             ->withPivotValue('target_type', $relationSchema->data);
         }
-        
 
         $relation
             ->using($payload->get('using', config('amethyst.relation.data.relation.model')))
