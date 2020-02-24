@@ -16,17 +16,36 @@ class MorphToMany extends Base
         $target = $this->getEntityClass($payload->require('target'));
         $method = $this->getName();
 
-        $relation = $data->$method(
-            $relationSchema->name,
-            $target,
-            $payload->get('name', 'source'),
-            $payload->get('table', config('amethyst.relation.data.relation.table')),
-            $payload->get('relatedPivotKey', 'source_id'),
-            $payload->get('foreignPivotKey', 'target_id')
-        )
-        ->using($payload->get('using', config('amethyst.relation.data.relation.model')))
-        ->withPivotValue('target_type', $payload->require('target'))
-        ->withPivotValue('key', $payload->get('key', $relationSchema->data.':'.$relationSchema->name));
+
+        if ($payload->get('inverse', false) === false) {
+            $relation = $data->$method(
+                $relationSchema->name,
+                $target,
+                $payload->get('name', 'source'),
+                $payload->get('table', config('amethyst.relation.data.relation.table')),
+                $payload->get('relatedPivotKey', 'source_id'),
+                $payload->get('foreignPivotKey', 'target_id')
+            )
+            ->withPivotValue('target_type', $payload->require('target'));
+        } else {
+            $relation = $data->$method(
+                $relationSchema->name,
+                $target,
+                $payload->get('name', 'source'),
+                $payload->get('table', config('amethyst.relation.data.relation.table')),
+                $payload->get('foreignPivotKey', 'target_id'),
+                $payload->get('relatedPivotKey', 'source_id'),
+                null,
+                null,
+                true
+            )
+            ->withPivotValue('target_type', $relationSchema->data);
+        }
+        
+
+        $relation
+            ->using($payload->get('using', config('amethyst.relation.data.relation.model')))
+            ->withPivotValue('key', $payload->get('key', $relationSchema->data.':'.$relationSchema->name));
 
         $this->filterTarget($relation, $target, $payload->get('filter'));
     }
