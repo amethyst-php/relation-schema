@@ -16,12 +16,13 @@ class RelationSchemaSchema extends Schema
     {
         return [
             Attributes\IdAttribute::make(),
+            \Amethyst\Core\Attributes\DataNameAttribute::make('data')
+                ->setRequired(true)
+                ->setMutable(false),
             Attributes\TextAttribute::make('name')
                 ->setRequired(true)
                 ->setUnique(true),
             Attributes\LongTextAttribute::make('description'),
-            \Amethyst\Core\Attributes\DataNameAttribute::make('data')
-                ->setRequired(true),
             Attributes\EnumAttribute::make('type', config('amethyst.relation-schema.data.relation-schema.attributes.type.options'))
                 ->setRequired(true),
             Attributes\YamlAttribute::make('payload')
