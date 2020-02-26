@@ -43,7 +43,7 @@ class MorphToMany extends Base
 
         $relation
             ->using($payload->get('using', config('amethyst.relation.data.relation.model')))
-            ->withPivotValue('key', $payload->get('key', $relationSchema->data.':'.$relationSchema->name));
+            ->withPivotValue('key', $payload->get('key', $relationSchema->name));
 
         $this->filterTarget($relation, $target, $payload->get('filter'));
     }
