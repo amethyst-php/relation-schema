@@ -20,8 +20,7 @@ class RelationSchemaSchema extends Schema
                 ->setRequired(true)
                 ->setMutable(false),
             Attributes\TextAttribute::make('name')
-                ->setRequired(true)
-                ->setUnique(true),
+                ->setRequired(true),
             Attributes\LongTextAttribute::make('description'),
             Attributes\EnumAttribute::make('type', config('amethyst.relation-schema.data.relation-schema.attributes.type.options'))
                 ->setRequired(true),
