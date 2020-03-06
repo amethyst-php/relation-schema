@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'table'      => 'amethyst_relation_schemas',
+    'table'      => 'relation_schema',
     'comment'    => 'RelationSchema',
     'model'      => Amethyst\Models\RelationSchema::class,
     'schema'     => Amethyst\Schemas\RelationSchemaSchema::class,
