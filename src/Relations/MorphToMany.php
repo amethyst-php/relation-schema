@@ -45,6 +45,16 @@ class MorphToMany extends Base
             ->using($payload->get('using', config('amethyst.relation.data.relation.model')))
             ->withPivotValue('key', $payload->get('key', $relationSchema->name));
 
+        if ($payload->get('inversedBy')) {
+            app('eloquent.mapper')->addInversedRelation(
+                $data,
+                $target,
+                $relationSchema->name,
+                $payload->get('inversedBy')
+            );
+            // $relation->mappedBy($payload->get('inversedBy'));
+        }
+
         $this->filterTarget($relation, $target, $payload->get('filter'));
     }
 }
