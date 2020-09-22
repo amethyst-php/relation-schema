@@ -54,7 +54,6 @@ class MorphToMany extends Base
             );
             // $relation->mappedBy($payload->get('inversedBy'));
         }
-
         $this->filterTarget($relation, $target, $payload->get('filter'));
     }
 }

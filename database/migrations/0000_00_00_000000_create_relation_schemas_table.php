@@ -18,7 +18,7 @@ class CreateRelationSchemasTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('type');
-            $table->text('payload');
+            $table->text('payload')->nullable();
             $table->timestamps();
         });
     }

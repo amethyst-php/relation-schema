@@ -4,23 +4,24 @@ namespace Amethyst\Relations;
 
 use Amethyst\Models\RelationSchema;
 
-class BelongsTo extends Base
+class MorphTo extends Base
 {
-    protected $name = 'belongs_to';
+    protected $name = 'morph_to';
 
     public function define(RelationSchema $relationSchema)
     {
         $payload = $this->extractPayload($relationSchema);
 
         $data = $this->getEntityClass($relationSchema->data);
-        $target = $this->getEntityClass($payload->require('target'));
+        $target = $payload->get('target');
         $foreignKey = $payload->get('foreignKey');
+        $ownerKey = $payload->get('ownerKey');
         $method = $this->getName();
 
         $relation = $data->$method(
             $relationSchema->name,
-            $target,
-            $foreignKey
+            $foreignKey,
+            $ownerKey
         );
     }
 }

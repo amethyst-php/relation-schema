@@ -19,7 +19,7 @@ class Base
 
     public function extractPayload(RelationSchema $relationSchema)
     {
-        return new Bag(Yaml::parse($relationSchema->payload));
+        return new Bag(empty($relationSchema->payload) ? [] : Yaml::parse($relationSchema->payload));
     }
 
     public function filterTarget($relation, Model $target, $filter)

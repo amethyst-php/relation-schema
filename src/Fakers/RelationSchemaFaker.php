@@ -17,11 +17,10 @@ class RelationSchemaFaker extends Faker
         $faker = Factory::create();
 
         $bag = new Bag();
-        $bag->set('name', $faker->name);
+        $bag->set('name', "rel");
         $bag->set('description', $faker->text);
-        $bag->set('type', 'MorphToOne');
-        $bag->set('data', 'foo');
-        $bag->set('payload', Yaml::dump(['target' => 'foo']));
+        $bag->set('type', 'MorphTo');
+        $bag->set('data', 'bar');
 
         return $bag;
     }

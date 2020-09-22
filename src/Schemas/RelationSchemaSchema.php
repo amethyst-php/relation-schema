@@ -4,6 +4,7 @@ namespace Amethyst\Schemas;
 
 use Railken\Lem\Attributes;
 use Railken\Lem\Schema;
+use Railken\Lem\Contracts\EntityContract;
 
 class RelationSchemaSchema extends Schema
 {
@@ -20,12 +21,15 @@ class RelationSchemaSchema extends Schema
                 ->setRequired(true)
                 ->setMutable(false),
             Attributes\TextAttribute::make('name')
-                ->setRequired(true),
+                ->setRequired(true)
+                ->setValidator(function (EntityContract $entity, $value) {
+                    return preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $value);
+                }),
             Attributes\LongTextAttribute::make('description'),
             Attributes\EnumAttribute::make('type', config('amethyst.relation-schema.data.relation-schema.attributes.type.options'))
                 ->setRequired(true),
             Attributes\YamlAttribute::make('payload')
-                ->setRequired(true),
+                ->setRequired(false),
             Attributes\CreatedAtAttribute::make(),
             Attributes\UpdatedAtAttribute::make(),
         ];

@@ -27,7 +27,7 @@ class CustomRelationTest extends BaseTest
 
         $this->assertEquals('Parent', $parent->name);
         $this->assertEquals(1, $parent->children->count());
-        $this->assertEquals("select * from `amethyst_bars` inner join `amethyst_relations` on `amethyst_bars`.`id` = `amethyst_relations`.`target_id` where `amethyst_relations`.`source_id` = '1' and `amethyst_relations`.`source_type` = 'foo' and `amethyst_relations`.`target_type` = 'bar' and `amethyst_relations`.`key` = 'foo:children' and `amethyst_bars`.`deleted_at` is null", $this->getQuery($parent->children()));
+        $this->assertEquals("select * from `bar` inner join `relation` on `bar`.`id` = `relation`.`target_id` where `relation`.`source_id` = '1' and `relation`.`source_type` = 'foo' and `relation`.`target_type` = 'bar' and `relation`.`key` = 'children' and `bar`.`deleted_at` is null", $this->getQuery($parent->children()));
         $this->assertEquals('Child', $parent->children()->first()->name);
     }
 
@@ -50,7 +50,7 @@ class CustomRelationTest extends BaseTest
 
         $this->assertEquals('Parent', $parent->name);
         $this->assertEquals(1, $parent->children->count());
-        $this->assertEquals("select * from `amethyst_bars` inner join `amethyst_relations` on `amethyst_bars`.`id` = `amethyst_relations`.`target_id` where `amethyst_relations`.`source_id` = '1' and `amethyst_relations`.`source_type` = 'foo' and `amethyst_relations`.`target_type` = 'bar' and `amethyst_relations`.`key` = 'customKey' and `amethyst_bars`.`deleted_at` is null", $this->getQuery($parent->children()));
+        $this->assertEquals("select * from `bar` inner join `relation` on `bar`.`id` = `relation`.`target_id` where `relation`.`source_id` = '1' and `relation`.`source_type` = 'foo' and `relation`.`target_type` = 'bar' and `relation`.`key` = 'customKey' and `bar`.`deleted_at` is null", $this->getQuery($parent->children()));
         $this->assertEquals('Child', $parent->children()->first()->name);
     }
 
@@ -95,7 +95,7 @@ class CustomRelationTest extends BaseTest
 
         $this->assertEquals('Parent', $parent->name);
         $this->assertEquals(1, $parent->children->count());
-        $this->assertEquals("select * from `amethyst_bars` inner join `amethyst_relations` on `amethyst_bars`.`id` = `amethyst_relations`.`target_id` where `amethyst_relations`.`source_id` = '1' and `amethyst_relations`.`source_type` = 'foo' and `amethyst_relations`.`target_type` = 'bar' and `amethyst_relations`.`key` = 'bar:children' and `amethyst_bars`.`deleted_at` is null", $this->getQuery($parent->children()));
+        $this->assertEquals("select * from `bar` inner join `relation` on `bar`.`id` = `relation`.`target_id` where `relation`.`source_id` = '1' and `relation`.`source_type` = 'foo' and `relation`.`target_type` = 'bar' and `relation`.`key` = 'bar:children' and `bar`.`deleted_at` is null", $this->getQuery($parent->children()));
         $this->assertEquals('A Child', $parent->children()->first()->name);
 
         $this->assertEquals(1, $parent->childrenChild->count());
