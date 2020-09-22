@@ -17,7 +17,7 @@ return [
                 'MorphToOne'  => 'MorphToOne',
                 'MorphToMany' => 'MorphToMany',
                 'BelongsTo'   => 'BelongsTo',
-                'MorphTo'   => 'MorphTo',
+                'MorphTo'     => 'MorphTo',
                 'MorphMany'   => 'MorphMany',
             ],
         ],

@@ -5,9 +5,9 @@ namespace Amethyst\Tests;
 use Amethyst\Models\Bar;
 use Amethyst\Models\Foo;
 use Amethyst\Models\RelationSchema;
-use Symfony\Component\Yaml\Yaml;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Symfony\Component\Yaml\Yaml;
 
 class MorphToTest extends BaseTest
 {
@@ -26,9 +26,9 @@ class MorphToTest extends BaseTest
         });
 
         RelationSchema::create([
-            'name'    => 'parent',
-            'type'    => 'MorphTo',
-            'data'    => 'foo'
+            'name' => 'parent',
+            'type' => 'MorphTo',
+            'data' => 'foo',
         ]);
 
         $parent = Foo::create(['name' => 'Parent']);
@@ -38,10 +38,9 @@ class MorphToTest extends BaseTest
         $child->save();
 
         $this->assertEquals($parent->id, $child->parent_id);
-        $this->assertEquals("foo", $child->parent_type);
+        $this->assertEquals('foo', $child->parent_type);
         $this->assertEquals('Parent', $child->parent->name);
-        $this->assertEquals("select * from `foo` where `foo`.`id` = '1' and `foo`.`deleted_at` is null", $this->getQuery($child->parent()));        
-
+        $this->assertEquals("select * from `foo` where `foo`.`id` = '1' and `foo`.`deleted_at` is null", $this->getQuery($child->parent()));
 
         $parent = Bar::create(['name' => 'Parent']);
         $child = Foo::create(['name' => 'Child']);
@@ -50,10 +49,9 @@ class MorphToTest extends BaseTest
         $child->save();
 
         $this->assertEquals($parent->id, $child->parent_id);
-        $this->assertEquals("bar", $child->parent_type);
+        $this->assertEquals('bar', $child->parent_type);
         $this->assertEquals('Parent', $child->parent->name);
         $this->assertEquals("select * from `bar` where `bar`.`id` = '1' and `bar`.`deleted_at` is null", $this->getQuery($child->parent()));
-
     }
 
     public function testMorphToWithKeys()
@@ -76,8 +74,8 @@ class MorphToTest extends BaseTest
             'data'    => 'foo',
             'payload' => Yaml::dump([
                 'foreignKey' => 'pt',
-                'ownerKey' => 'pi'
-            ])
+                'ownerKey'   => 'pi',
+            ]),
         ]);
 
         $parent = Bar::create(['name' => 'Parent']);
@@ -87,10 +85,9 @@ class MorphToTest extends BaseTest
         $child->save();
 
         $this->assertEquals($parent->id, $child->pi);
-        $this->assertEquals("bar", $child->pt);
+        $this->assertEquals('bar', $child->pt);
         $this->assertEquals('Parent', $child->parent->name);
-        $this->assertEquals("select * from `bar` where `bar`.`id` = '1' and `bar`.`deleted_at` is null", $this->getQuery($child->parent()));        
-
+        $this->assertEquals("select * from `bar` where `bar`.`id` = '1' and `bar`.`deleted_at` is null", $this->getQuery($child->parent()));
     }
 
     public function getQuery($builder)

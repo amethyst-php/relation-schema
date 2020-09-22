@@ -2,12 +2,11 @@
 
 namespace Amethyst\Tests;
 
-use Amethyst\Models\Bar;
 use Amethyst\Models\Foo;
 use Amethyst\Models\RelationSchema;
-use Symfony\Component\Yaml\Yaml;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Symfony\Component\Yaml\Yaml;
 
 class BelongsToTest extends BaseTest
 {
@@ -39,7 +38,7 @@ class BelongsToTest extends BaseTest
         $child->save();
 
         $this->assertEquals('Parent', $child->parent->name);
-        $this->assertEquals("select * from `foo` where `foo`.`id` = '1' and `foo`.`deleted_at` is null", $this->getQuery($child->parent()));        
+        $this->assertEquals("select * from `foo` where `foo`.`id` = '1' and `foo`.`deleted_at` is null", $this->getQuery($child->parent()));
     }
 
     public function testBelongsToWithTargetAndForeignKey()
@@ -59,8 +58,8 @@ class BelongsToTest extends BaseTest
             'type'    => 'BelongsTo',
             'data'    => 'foo',
             'payload' => Yaml::dump([
-                'target' => 'foo',
-                'foreignKey' => 'customfield'
+                'target'     => 'foo',
+                'foreignKey' => 'customfield',
             ]),
         ]);
 
@@ -77,7 +76,7 @@ class BelongsToTest extends BaseTest
         $third->customfield = $child->id;
         $third->save();
 
-        $this->assertEquals('Child', $third->parent->name);  
+        $this->assertEquals('Child', $third->parent->name);
     }
 
     public function getQuery($builder)
