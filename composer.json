@@ -9,7 +9,6 @@
         "amethyst/relation": "0.2.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "7.*",
         "orchestra/testbench": "*",
         "amethyst/foo": "0.2.*"
     },
