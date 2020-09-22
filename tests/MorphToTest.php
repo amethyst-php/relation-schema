@@ -11,7 +11,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class MorphToTest extends BaseTest
 {
-    public function testMorphTo()
+    public function testMorphToBasic()
     {
         Schema::table('foo', function (BluePrint $table) {
             if (Schema::hasColumn('foo', 'parent_id')) {
