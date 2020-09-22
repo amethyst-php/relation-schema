@@ -1,6 +1,6 @@
 # amethyst-relation-schema
 
-[![Action Status](https://github.com/amethyst-php/relation-schema/workflows/test/badge.svg)](https://github.com/amethyst-php/relation-schema/actions)
+[![Action Status](https://github.com/amethyst-php/relation-schema/workflows/Test/badge.svg)](https://github.com/amethyst-php/relation-schema/actions)
 
 [Amethyst](https://github.com/amethyst-php/amethyst) package.
 
