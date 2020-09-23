@@ -5,8 +5,6 @@
 
 Create your own custom relations between Models without altering the code.
 
-# Documentation
-
 # Requirements
 
 - PHP from 7.1 to 7.4
