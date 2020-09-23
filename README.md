@@ -1,20 +1,16 @@
-# amethyst-relation-schema
+# Relation Schema
 
 [![Action Status](https://github.com/amethyst-php/relation-schema/workflows/Test/badge.svg)](https://github.com/amethyst-php/relation-schema/actions)
-
-[Amethyst](https://github.com/amethyst-php/amethyst) package.
+[![Amethyst](https://img.shields.io/badge/Package-Amethyst-7e57c2)](https://github.com/amethyst-php/amethyst)
 
 Create your own custom relations between Models without altering the code.
 
-Current supported relationships:
-- MorphMany
-
-Future features:
-- Define inverse relationships (e.g. children and parent)
+# Documentation
 
 # Requirements
 
-PHP 7.1 and later.
+- PHP from 7.1 to 7.4
+- Laravel from 5.8 to 8.x
 
 ## Installation
 
@@ -26,43 +22,56 @@ composer require amethyst/relation-schema
 
 The package will automatically register itself.
 
-## Demo
+Add `app('amethyst.relation-schema')->boot();` in any ServiceProvider in the method `boot`
 
+## Usage
+
+This explanation presumes that you're already know the basics of how any Amethyst Package works. If you don't know check the documentation
+
+All relations are stored by the Eloquent Model `Amethyst\Models\RelationSchema`. 
+
+There are currently 5 relations supported: `BelongsTo`, `MorphTo`, `MorphToMany`, `MorphToOne`, `MorphMany`.
+
+To create a new relation insert a new record like the following example.
 ```php
-use Amethyst\Models\RelationSchema;
-use Amethyst\Models\Foo;
+use Symfony\Component\Yaml\Yaml;
 
-RelationSchema::create([
-    'name' => 'redChildren',
-    'source' => 'foo',
-    'target' => 'foo',
-    'type' => 'MorphMany',
-    'filter' => "redChildren"
+app('amethyst')->get('relation-schema')->createOrFail([
+    'name'    => 'parent',
+    'type'    => 'BelongsTo',
+    'data'    => 'foo',
+    'payload' => Yaml::dump([
+        'target' => 'bar',
+    ]),
 ]);
+```
+Here's a list of all attributes with a brief explanation:
+- name: The name of the relation. Can be only alphanumeric and it must start with a letter
+- description: An optional field that will help to describe the relation 
+- type: The type of the relation, for now there are only 5 relations: `BelongsTo`, `MorphTo`, `MorphToMany`, `MorphToOne`, `MorphMany`
+- data: The name of the data this relation start with. If a `Book` is related to an `Author` through the relation `BelongsTo` named `author`, then `book` is the data
+- payload: A sets of information used to define better the relation, this changes based on the type of the relation. For example in a `BelongsTo` relation you'll neet a target, in the previous example `Author` is the target. 
 
-RelationSchema::create([
-    'name' => 'blueChildren',
-    'source' => 'foo',
-    'target' => 'foo',
-    'type' => 'MorphMany',
-    'filter' => "blueChildren"
-]);
+Now we'll see how the payload changes 
+### BelongsTo
 
-$parent = Foo::create(['name' => 'Parent']);
-$redChildren = Foo::create(['name' => 'Child:Red']);
-$blueChildren = Foo::create(['name' => 'Child:Blue']);
+- target
+- foreignKey
 
-$parent->redChildren()->attach($redChildren);
-$parent->blueChildren()->attach($blueChildren);
+### MorphTo
 
-$parent->redChildren->count(); // 1
-$parent->blueChildren->count(); // 1
+- foreignKey
+- ownerKey
 
- ```
-## Documentation
+### MorphToMany
 
-[Read](docs/index.md)
+### MorphToOne
+
+### MorphMany
 
 ## Testing
 
-Configure the .env file before launching `./vendor/bin/phpunit`
+- Clone this repository
+- Copy the default `phpunit.xml.dist` to `phpunit.xml`
+- Change the environment variables as you see fit
+- Launch `./vendor/bin/phpunit`
