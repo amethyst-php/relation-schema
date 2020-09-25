@@ -14,16 +14,16 @@ abstract class BaseTest extends \Orchestra\Testbench\TestCase
         $this->artisan('migrate:fresh');
     }
 
+    public function getQuery($builder)
+    {
+        return vsprintf(str_replace(['?'], ['\'%s\''], $builder->toSql()), $builder->getBindings());
+    }
+
     protected function getPackageProviders($app)
     {
         return [
             \Amethyst\Providers\RelationSchemaServiceProvider::class,
             \Amethyst\Providers\FooServiceProvider::class,
         ];
-    }
-
-    public function getQuery($builder)
-    {
-        return vsprintf(str_replace(['?'], ['\'%s\''], $builder->toSql()), $builder->getBindings());
     }
 }

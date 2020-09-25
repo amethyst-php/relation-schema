@@ -50,7 +50,7 @@ class BelongsToTest extends BaseTest
     public function testBelongsToWithTargetAndForeignKey()
     {
         $this->startingBelongsTo('customfield', [
-            'foreignKey' => 'customfield'
+            'foreignKey' => 'customfield',
         ]);
 
         $parent = Foo::create(['name' => 'Parent']);

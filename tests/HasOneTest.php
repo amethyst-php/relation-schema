@@ -44,7 +44,7 @@ class HasOneTest extends HasManyTest
 
         $this->assertEquals($child->name, $parent->children->name);
         $this->assertEquals(
-            "select * from `foo` where `foo`.`foo_id` = '1' and `foo`.`foo_id` is not null and `foo`.`deleted_at` is null", 
+            "select * from `foo` where `foo`.`foo_id` = '1' and `foo`.`foo_id` is not null and `foo`.`deleted_at` is null",
             $this->getQuery($parent->children())
         );
     }
@@ -52,7 +52,7 @@ class HasOneTest extends HasManyTest
     public function testHasManyWithTargetAndLocalKey()
     {
         $this->startingHasMany('foo_id', [
-             'local_key' => 'localKey'
+             'local_key' => 'localKey',
         ]);
 
         $parent = Foo::create(['name' => 'Parent']);
@@ -63,7 +63,7 @@ class HasOneTest extends HasManyTest
 
         $this->assertEquals($child->name, $parent->children->name);
         $this->assertEquals(
-            "select * from `foo` where `foo`.`foo_id` = '2' and `foo`.`foo_id` is not null and `foo`.`deleted_at` is null", 
+            "select * from `foo` where `foo`.`foo_id` = '2' and `foo`.`foo_id` is not null and `foo`.`deleted_at` is null",
             $this->getQuery($parent->children())
         );
     }
