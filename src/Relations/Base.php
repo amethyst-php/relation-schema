@@ -8,7 +8,7 @@ use Railken\Bag;
 use Railken\EloquentMapper\Scopes\FilterScope;
 use Symfony\Component\Yaml\Yaml;
 
-class Base
+abstract class Base
 {
     use \Amethyst\Concerns\GetClassNameByDataName;
 
@@ -16,6 +16,8 @@ class Base
     {
         return $this->name;
     }
+
+    abstract public function define(RelationSchema $relationSchema);
 
     public function extractPayload(RelationSchema $relationSchema)
     {
