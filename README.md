@@ -64,8 +64,7 @@ Starting with the most simple relation, `BelongsTo`. It requires only the `targe
 You can also set the `foreignKey` option.
 
 So for example this new record
-```
-<?php
+```php
 use Symfony\Component\Yaml\Yaml;
 
 app('amethyst')->get('relation-schema')->createOrFail([
@@ -80,9 +79,7 @@ app('amethyst')->get('relation-schema')->createOrFail([
 ```
 is the exact same thing like this
 
-```
-<?php
-
+```php
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Foo
@@ -103,8 +100,7 @@ Beside the `target` you can set `foreignKey` and `localKey`.
 
 Now let's look an example of the same relationship in `BelongsTo` but inverted
 
-```
-<?php
+```php
 use Symfony\Component\Yaml\Yaml;
 
 app('amethyst')->get('relation-schema')->createOrFail([
@@ -119,9 +115,7 @@ app('amethyst')->get('relation-schema')->createOrFail([
 ]);
 ```
 Will result in:
-```
-<?php
-
+```php
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Bar
