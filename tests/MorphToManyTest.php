@@ -7,7 +7,7 @@ use Amethyst\Models\Foo;
 use Amethyst\Models\RelationSchema;
 use Symfony\Component\Yaml\Yaml;
 
-class CustomRelationTest extends BaseTest
+class MorphToManyTest extends BaseTest
 {
     public function testBasicMorphDef()
     {
@@ -100,10 +100,5 @@ class CustomRelationTest extends BaseTest
 
         $this->assertEquals(1, $parent->childrenChild->count());
         $this->assertEquals(0, $parent->childrenFlux->count());
-    }
-
-    public function getQuery($builder)
-    {
-        return vsprintf(str_replace(['?'], ['\'%s\''], $builder->toSql()), $builder->getBindings());
     }
 }

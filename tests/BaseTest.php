@@ -21,4 +21,9 @@ abstract class BaseTest extends \Orchestra\Testbench\TestCase
             \Amethyst\Providers\FooServiceProvider::class,
         ];
     }
+
+    public function getQuery($builder)
+    {
+        return vsprintf(str_replace(['?'], ['\'%s\''], $builder->toSql()), $builder->getBindings());
+    }
 }

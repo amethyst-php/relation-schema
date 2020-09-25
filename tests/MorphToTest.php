@@ -11,24 +11,33 @@ use Symfony\Component\Yaml\Yaml;
 
 class MorphToTest extends BaseTest
 {
-    public function testMorphToBasic()
+    public function startingMorphTo($columnId, $columnType, $params = [])
     {
-        Schema::table('foo', function (BluePrint $table) {
+        Schema::table('foo', function (BluePrint $table) use ($columnId, $columnType) {
             if (Schema::hasColumn('foo', 'parent_id')) {
-                $table->dropColumn('parent_id');
-                $table->dropColumn('parent_type');
+                $table->dropColumn($columnId);
+                $table->dropColumn($columnType);
             }
         });
 
-        Schema::table('foo', function (Blueprint $table) {
-            $table->integer('parent_id')->unsigned()->nullable();
-            $table->string('parent_type')->nullable();
+        Schema::table('foo', function (Blueprint $table) use ($columnId, $columnType) {
+            $table->integer($columnId)->unsigned()->nullable();
+            $table->string($columnType)->nullable();
         });
 
         RelationSchema::create([
-            'name' => 'parent',
-            'type' => 'MorphTo',
-            'data' => 'foo',
+            'name'    => 'parent',
+            'type'    => 'MorphTo',
+            'data'    => 'foo',
+            'payload' => Yaml::dump(array_merge($params, [
+                'target' => 'foo',
+            ])),
+        ]);
+    }
+
+    public function testMorphToBasic()
+    {
+        $this->startingMorphTo('parent_id', 'parent_type', [
         ]);
 
         $parent = Foo::create(['name' => 'Parent']);
@@ -56,26 +65,9 @@ class MorphToTest extends BaseTest
 
     public function testMorphToWithKeys()
     {
-        Schema::table('foo', function (BluePrint $table) {
-            if (Schema::hasColumn('foo', 'parent_id')) {
-                $table->dropColumn('i');
-                $table->dropColumn('pt');
-            }
-        });
-
-        Schema::table('foo', function (Blueprint $table) {
-            $table->integer('pi')->unsigned()->nullable();
-            $table->string('pt')->nullable();
-        });
-
-        RelationSchema::create([
-            'name'    => 'parent',
-            'type'    => 'MorphTo',
-            'data'    => 'foo',
-            'payload' => Yaml::dump([
-                'foreignKey' => 'pt',
-                'ownerKey'   => 'pi',
-            ]),
+        $this->startingMorphTo('pi', 'pt', [
+            'foreignKey' => 'pt',
+            'ownerKey'   => 'pi',
         ]);
 
         $parent = Bar::create(['name' => 'Parent']);
@@ -88,10 +80,5 @@ class MorphToTest extends BaseTest
         $this->assertEquals('bar', $child->pt);
         $this->assertEquals('Parent', $child->parent->name);
         $this->assertEquals("select * from `bar` where `bar`.`id` = '1' and `bar`.`deleted_at` is null", $this->getQuery($child->parent()));
-    }
-
-    public function getQuery($builder)
-    {
-        return vsprintf(str_replace(['?'], ['\'%s\''], $builder->toSql()), $builder->getBindings());
     }
 }

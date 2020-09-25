@@ -10,25 +10,31 @@ use Symfony\Component\Yaml\Yaml;
 
 class BelongsToTest extends BaseTest
 {
-    public function testBelongsToWithTarget()
+    public function startingBelongsTo($column, $params = [])
     {
-        Schema::table('foo', function (BluePrint $table) {
+        Schema::table('foo', function (BluePrint $table) use ($column) {
             if (Schema::hasColumn('foo', 'parent_id')) {
-                $table->dropColumn('parent_id');
+                $table->dropColumn($column);
             }
         });
 
-        Schema::table('foo', function (Blueprint $table) {
-            $table->integer('parent_id')->unsigned()->nullable();
+        Schema::table('foo', function (Blueprint $table) use ($column) {
+            $table->integer($column)->unsigned()->nullable();
         });
 
         RelationSchema::create([
             'name'    => 'parent',
             'type'    => 'BelongsTo',
             'data'    => 'foo',
-            'payload' => Yaml::dump([
+            'payload' => Yaml::dump(array_merge($params, [
                 'target' => 'foo',
-            ]),
+            ])),
+        ]);
+    }
+
+    public function testBelongsToWithTarget()
+    {
+        $this->startingBelongsTo('parent_id', [
         ]);
 
         $parent = Foo::create(['name' => 'Parent']);
@@ -43,24 +49,8 @@ class BelongsToTest extends BaseTest
 
     public function testBelongsToWithTargetAndForeignKey()
     {
-        Schema::table('foo', function (BluePrint $table) {
-            if (Schema::hasColumn('foo', 'customfield')) {
-                $table->dropColumn('customfield');
-            }
-        });
-
-        Schema::table('foo', function (Blueprint $table) {
-            $table->integer('customfield')->unsigned()->nullable();
-        });
-
-        RelationSchema::create([
-            'name'    => 'parent',
-            'type'    => 'BelongsTo',
-            'data'    => 'foo',
-            'payload' => Yaml::dump([
-                'target'     => 'foo',
-                'foreignKey' => 'customfield',
-            ]),
+        $this->startingBelongsTo('customfield', [
+            'foreignKey' => 'customfield'
         ]);
 
         $parent = Foo::create(['name' => 'Parent']);
@@ -77,10 +67,5 @@ class BelongsToTest extends BaseTest
         $third->save();
 
         $this->assertEquals('Child', $third->parent->name);
-    }
-
-    public function getQuery($builder)
-    {
-        return vsprintf(str_replace(['?'], ['\'%s\''], $builder->toSql()), $builder->getBindings());
     }
 }
