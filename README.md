@@ -134,6 +134,7 @@ You can add another parameter called `filter` in the `payload`.
 
 So having something like this: `filter: "status eq 'paid'"`. You can also use auto joins here, so for e.g. a query like: only the invoice that contains `Maintenance` in the name, will result in `filter: "status eq 'paid' and items.name ct 'Maintenance'"`.
 
+Limitation: You cannot insert in the filter the same relation you're currently defining
 ### ManyToMany and BelongsToMany
 Not yet implemented.
 
