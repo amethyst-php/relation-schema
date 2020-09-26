@@ -19,8 +19,8 @@ class HasMany extends Base
         $relation = $data->$method(
             $relationSchema->name,
             $target,
-            $payload->get('foreign_key'),
-            $payload->get('local_key')
+            $payload->get('foreignKey'),
+            $payload->get('localKey')
         );
 
         $this->filterTarget($relation, $target, $payload->get('filter'));
