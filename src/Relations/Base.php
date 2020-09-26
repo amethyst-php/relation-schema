@@ -30,11 +30,10 @@ abstract class Base
             return;
         }
 
-        $qb = new \Amethyst\CallCatcher();
+        $qb = new \Amethyst\CallCatcher($target);
 
-        $qb->setModel($target);
         $this->filter($qb, $filter);
-
+        
         foreach ($qb->calls as $call) {
             $method = $call[0];
             if (!in_array($method, ['getQuery', 'from'], true)) {

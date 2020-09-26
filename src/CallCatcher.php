@@ -3,26 +3,23 @@
 namespace Amethyst;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class CallCatcher
 {
     public $calls;
-    public $model;
 
-    public function __call($method, $args)
+    public function __construct($model)
     {
-        $this->calls[] = [$method, $args];
-
-        return $this;
-    }
-
-    public function setModel(Model $model)
-    {
+        $this->instance = $model->newQuery();
         $this->model = $model;
+        $this->query = $this->instance->getQuery();
     }
 
-    public function getModel(): Model
+    public function __call($method, $parameters)
     {
-        return $this->model;
+        $this->calls[] = [$method, $parameters];
+
+        return $this->instance->$method(...$parameters);
     }
 }
