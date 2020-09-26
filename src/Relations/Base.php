@@ -33,13 +33,28 @@ abstract class Base
         $qb = new \Amethyst\CallCatcher($target);
 
         $this->filter($qb, $filter);
-        
-        foreach ($qb->calls as $call) {
-            $method = $call[0];
-            if (!in_array($method, ['getQuery', 'from'], true)) {
-                $relation->$method(...$call[1]);
+
+        return $relation->whereIn($target->getTable().".".$target->getKeyName(), function($query) use ($qb, $target) {
+
+            $query->from($target->getTable());
+
+            foreach ($qb->calls as $call) {
+                $method = $call[0];
+
+                if (!in_array($method, [
+                    'getModel', 
+                    'getQuery',
+                    'from',
+                    'select'
+                ], true)) {
+                    $query->$method(...$call[1]);
+                }
             }
-        }
+
+            $query->select($target->getTable().".".$target->getKeyName());
+        });
+
+        
     }
 
     public function filter($query, $filter)

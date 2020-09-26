@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Yaml\Yaml;
 
-class HasOneTest extends HasManyTest
+class HasOneTest extends BaseTest
 {
     public function startingHasMany($column, $params = [])
     {
@@ -52,7 +52,7 @@ class HasOneTest extends HasManyTest
     public function testHasManyWithTargetAndLocalKey()
     {
         $this->startingHasMany('foo_id', [
-             'local_key' => 'localKey',
+             'localKey' => 'localKey',
         ]);
 
         $parent = Foo::create(['name' => 'Parent']);

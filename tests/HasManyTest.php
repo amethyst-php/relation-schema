@@ -32,10 +32,12 @@ class HasManyTest extends BaseTest
         ]);
     }
 
-    public function testHasMany()
+    public function testHasManySimple()
     {
         $this->startingHasMany('foo_id', [
         ]);
+
+        Foo::truncate();
 
         $parent = Foo::create(['name' => 'Parent']);
         $child = Foo::create(['name' => 'Child']);
@@ -44,7 +46,7 @@ class HasManyTest extends BaseTest
 
         $this->assertEquals($child->name, $parent->children->first()->name);
         $this->assertEquals(
-            "select * from `foo` where `foo`.`foo_id` = '1' and `foo`.`foo_id` is not null and `foo`.`deleted_at` is null",
+            sprintf("select * from `foo` where `foo`.`foo_id` = '%s' and `foo`.`foo_id` is not null and `foo`.`deleted_at` is null", $parent->id),
             $this->getQuery($parent->children())
         );
     }
@@ -55,6 +57,8 @@ class HasManyTest extends BaseTest
              'localKey' => 'localKey',
         ]);
 
+        Foo::truncate();
+
         $parent = Foo::create(['name' => 'Parent']);
         $parent->localKey = 2;
         $child = Foo::create(['name' => 'Child']);
@@ -63,7 +67,7 @@ class HasManyTest extends BaseTest
 
         $this->assertEquals($child->name, $parent->children->first()->name);
         $this->assertEquals(
-            "select * from `foo` where `foo`.`foo_id` = '2' and `foo`.`foo_id` is not null and `foo`.`deleted_at` is null",
+            sprintf("select * from `foo` where `foo`.`foo_id` = '%s' and `foo`.`foo_id` is not null and `foo`.`deleted_at` is null", $parent->localKey),
             $this->getQuery($parent->children())
         );
     }
@@ -81,15 +85,19 @@ class HasManyTest extends BaseTest
             'payload' => Yaml::dump([
                 'target' => 'foo',
                 'foreignKey' => 'parent_id',
-                'filter' => "children.name eq 'Red' and children.name != 'Blue'"
+                'filter' => "children.name ct 'Red' and children.name != 'Blue'"
             ])
         ]);
 
+        Foo::truncate();
+
+        $grandParent = Foo::create(['name' => 'Grand Parent']);
         $parent = Foo::create(['name' => 'Parent']);
         $redChild1 = Foo::create(['name' => 'Red 1']);
         $redChild2 = Foo::create(['name' => 'Red 2']);
         $blueChild = Foo::create(['name' => 'Blue']);
 
+        $grandParent->children()->save($parent);
         $parent->children()->save($redChild1);
         $parent->children()->save($redChild2);
         $parent->children()->save($blueChild);
@@ -98,8 +106,10 @@ class HasManyTest extends BaseTest
         $this->assertEquals($redChild2->name, $parent->children[1]->name);
         $this->assertEquals($blueChild->name, $parent->children[2]->name);
         $this->assertEquals(
-            "select `foo`.* from `foo` left join `foo` as `children` on `foo`.`id` = `children`.`parent_id` and `children`.`deleted_at` is null where (`children`.`name` = 'Red' and `children`.`name` != 'Blue') and `foo`.`deleted_at` is null",
+            "select * from `foo` where `foo`.`parent_id` = '2' and `foo`.`parent_id` is not null and `foo`.`id` in (select `foo`.`id` from `foo` left join `foo` as `children` on `foo`.`id` = `children`.`parent_id` and `children`.`deleted_at` is null where (`children`.`name` like '%Red%' and `children`.`name` != 'Blue')) and `foo`.`deleted_at` is null",
             $this->getQuery($parent->redChildren())
         );
+        $this->assertEquals(0, $parent->redChildren->count());
+        $this->assertEquals(1, $grandParent->redChildren->count());
     }
 }
