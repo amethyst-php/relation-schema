@@ -3,9 +3,25 @@
 namespace Amethyst\Observers;
 
 use Amethyst\Models\RelationSchema;
+use Illuminate\Container\Container;
 
 class RelationSchemaObserver
-{
+{   
+    /**
+     * @var Container
+     */
+    protected $app;
+
+    /**
+     * Create a new instance
+     *
+     * @param Container $app
+     */
+    public function __construct(Container $app)
+    {
+        $this->app = $app;
+    }
+
     /**
      * Handle the RelationSchema "created" event.
      *
@@ -13,7 +29,7 @@ class RelationSchemaObserver
      */
     public function created(RelationSchema $relation)
     {
-        app('amethyst.relation-schema')->set($relation);
+        $this->app->get('amethyst.relation-schema')->set($relation);
     }
 
     /**
@@ -27,11 +43,11 @@ class RelationSchemaObserver
             $oldName = $relation->getOriginal()['name'];
 
             if ($relation->name !== $oldName) {
-                app('amethyst.relation-schema')->unset($relation, $oldName);
+                $this->app->get('amethyst.relation-schema')->unset($relation, $oldName);
             }
         }
 
-        app('amethyst.relation-schema')->set($relation);
+        $this->app->get('amethyst.relation-schema')->set($relation);
     }
 
     /**
@@ -41,6 +57,6 @@ class RelationSchemaObserver
      */
     public function deleted(RelationSchema $relation)
     {
-        app('amethyst.relation-schema')->unset($relation);
+        $this->app->get('amethyst.relation-schema')->unset($relation);
     }
 }
