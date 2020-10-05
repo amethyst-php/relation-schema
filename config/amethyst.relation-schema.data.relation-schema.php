@@ -17,6 +17,7 @@ return [
                 'BelongsTo'   => 'BelongsTo',
                 'HasOne'     => 'HasOne',
                 'HasMany'     => 'HasMany',
+                'BelongsToMany'   => 'BelongsToMany',
                 'MorphTo'     => 'MorphTo',
                 'MorphToOne'  => 'MorphToOne',
                 'MorphToMany' => 'MorphToMany',
