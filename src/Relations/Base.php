@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Railken\Bag;
 use Railken\EloquentMapper\Scopes\FilterScope;
 use Symfony\Component\Yaml\Yaml;
+use Amethyst\Concerns\GetInstanceModelByName;
 
 abstract class Base
 {
-    use \Amethyst\Concerns\GetClassNameByDataName;
+    use GetInstanceModelByName;
 
     public function getName()
     {

@@ -12,8 +12,8 @@ class MorphToMany extends Base
     {
         $payload = $this->extractPayload($relationSchema);
 
-        $data = $this->getEntityClass($relationSchema->data);
-        $target = $this->getEntityClass($payload->require('target'));
+        $data = $this->getInstanceModelByName($relationSchema->data);
+        $target = $this->getInstanceModelByName($payload->require('target'));
         $method = $this->getName();
 
         if ($payload->get('inverse', false) === false) {

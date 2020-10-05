@@ -12,7 +12,7 @@ class MorphTo extends Base
     {
         $payload = $this->extractPayload($relationSchema);
 
-        $data = $this->getEntityClass($relationSchema->data);
+        $data = $this->getInstanceModelByName($relationSchema->data);
         $foreignKey = $payload->get('foreignKey');
         $ownerKey = $payload->get('ownerKey');
         $method = $this->getName();

@@ -8,10 +8,11 @@ use Amethyst\Relations\Base;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
+use Amethyst\Concerns\GetInstanceModelByName;
 
 class RelationSchemaService
 {
-    use \Amethyst\Concerns\GetClassNameByDataName;
+    use GetInstanceModelByName;
 
     /**
      * @var Container
@@ -93,7 +94,7 @@ class RelationSchemaService
      */
     public function unset(RelationSchema $relation, string $oldName = null)
     {
-        $model = $this->getEntityClass($relation->data);
+        $model = $this->getInstanceModelByName($relation->data);
 
         if (!$model || !(new $model())->hasDynamicRelation($oldName ? $oldName : $relation->name)) {
             // Silent error, no needs to interrupt application for user-error

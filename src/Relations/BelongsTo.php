@@ -12,8 +12,8 @@ class BelongsTo extends Base
     {
         $payload = $this->extractPayload($relationSchema);
 
-        $data = $this->getEntityClass($relationSchema->data);
-        $target = $this->getEntityClass($payload->require('target'));
+        $data = $this->getInstanceModelByName($relationSchema->data);
+        $target = $this->getInstanceModelByName($payload->require('target'));
         $foreignKey = $payload->get('foreignKey');
         $method = $this->getName();
 
