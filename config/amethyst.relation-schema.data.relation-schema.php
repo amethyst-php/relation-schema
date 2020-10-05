@@ -15,6 +15,7 @@ return [
         'type' => [
             'options' => [
                 'BelongsTo'   => 'BelongsTo',
+                'HasOne'     => 'HasOne',
                 'HasMany'     => 'HasMany',
                 'MorphTo'     => 'MorphTo',
                 'MorphToOne'  => 'MorphToOne',
