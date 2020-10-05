@@ -7,18 +7,30 @@ use Amethyst\Models\RelationSchema;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
+use Amethyst\Relations\Base;
 
 class RelationSchemaService
 {
     use \Amethyst\Concerns\GetClassNameByDataName;
 
+    /**
+     * @var Container
+     */
     protected $app;
 
+    /**
+     * Create a new instance.
+     *
+     * @param Container $app
+     */
     public function __construct(Container $app)
     {
         $this->app = $app;
     }
 
+    /**
+     * Load all relations from the database
+     */
     public function boot()
     {
         if (!Schema::hasTable(Config::get('amethyst.relation-schema.data.relation-schema.table'))) {
@@ -34,16 +46,34 @@ class RelationSchemaService
         }
     }
 
+    /**
+     * Trigger an event update as a new relation has been added/removed/altered
+     *
+     * @param $target
+     */
     public function generate($target)
     {
         event(new \Railken\EloquentMapper\Events\EloquentMapUpdate($target));
     }
 
-    public function getRelationByType(string $type)
+    /**
+     * Retrieve new instance of relation by type
+     *
+     * @param string $type
+     *
+     * @return Base
+     */
+    public function getRelationByType(string $type): Base
     {
         return $this->app->make('RelationSchema:'.$type);
     }
 
+    /**
+     * Set a new relation
+     *
+     * @param RelationSchema $relationSchema
+     * @param bool $event
+     */
     public function set(RelationSchema $relationSchema, bool $event = true)
     {
         $relation = $this->getRelationByType($relationSchema->type);
@@ -55,6 +85,12 @@ class RelationSchemaService
         }
     }
 
+    /**
+     * Unset a relation
+     *
+     * @param RelationSchema $relation
+     * @param string $oldName
+     */
     public function unset(RelationSchema $relation, string $oldName = null)
     {
         $model = $this->getEntityClass($relation->data);
