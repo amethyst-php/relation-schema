@@ -4,10 +4,10 @@ namespace Amethyst\Services;
 
 use Amethyst\Core\Exceptions\DataNotFoundException;
 use Amethyst\Models\RelationSchema;
+use Amethyst\Relations\Base;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
-use Amethyst\Relations\Base;
 
 class RelationSchemaService
 {
@@ -29,7 +29,7 @@ class RelationSchemaService
     }
 
     /**
-     * Load all relations from the database
+     * Load all relations from the database.
      */
     public function boot()
     {
@@ -47,7 +47,7 @@ class RelationSchemaService
     }
 
     /**
-     * Trigger an event update as a new relation has been added/removed/altered
+     * Trigger an event update as a new relation has been added/removed/altered.
      *
      * @param $target
      */
@@ -57,7 +57,7 @@ class RelationSchemaService
     }
 
     /**
-     * Retrieve new instance of relation by type
+     * Retrieve new instance of relation by type.
      *
      * @param string $type
      *
@@ -69,10 +69,10 @@ class RelationSchemaService
     }
 
     /**
-     * Set a new relation
+     * Set a new relation.
      *
      * @param RelationSchema $relationSchema
-     * @param bool $event
+     * @param bool           $event
      */
     public function set(RelationSchema $relationSchema, bool $event = true)
     {
@@ -86,10 +86,10 @@ class RelationSchemaService
     }
 
     /**
-     * Unset a relation
+     * Unset a relation.
      *
      * @param RelationSchema $relation
-     * @param string $oldName
+     * @param string         $oldName
      */
     public function unset(RelationSchema $relation, string $oldName = null)
     {

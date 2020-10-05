@@ -34,27 +34,24 @@ abstract class Base
 
         $this->filter($qb, $filter);
 
-        return $relation->whereIn($target->getTable().".".$target->getKeyName(), function($query) use ($qb, $target) {
-
+        return $relation->whereIn($target->getTable().'.'.$target->getKeyName(), function ($query) use ($qb, $target) {
             $query->from($target->getTable());
 
             foreach ($qb->calls as $call) {
                 $method = $call[0];
 
                 if (!in_array($method, [
-                    'getModel', 
+                    'getModel',
                     'getQuery',
                     'from',
-                    'select'
+                    'select',
                 ], true)) {
                     $query->$method(...$call[1]);
                 }
             }
 
-            $query->select($target->getTable().".".$target->getKeyName());
+            $query->select($target->getTable().'.'.$target->getKeyName());
         });
-
-        
     }
 
     public function filter($query, $filter)

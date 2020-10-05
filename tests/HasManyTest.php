@@ -75,7 +75,7 @@ class HasManyTest extends BaseTest
     public function testHasManyWithFilter()
     {
         $this->startingHasMany('parent_id', [
-            'foreignKey' => 'parent_id'
+            'foreignKey' => 'parent_id',
         ]);
 
         RelationSchema::create([
@@ -83,10 +83,10 @@ class HasManyTest extends BaseTest
             'type'    => 'HasMany',
             'data'    => 'foo',
             'payload' => Yaml::dump([
-                'target' => 'foo',
+                'target'     => 'foo',
                 'foreignKey' => 'parent_id',
-                'filter' => "children.name ct 'Red' and children.name != 'Blue'"
-            ])
+                'filter'     => "children.name ct 'Red' and children.name != 'Blue'",
+            ]),
         ]);
 
         Foo::truncate();

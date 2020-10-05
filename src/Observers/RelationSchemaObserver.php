@@ -6,14 +6,14 @@ use Amethyst\Models\RelationSchema;
 use Illuminate\Container\Container;
 
 class RelationSchemaObserver
-{   
+{
     /**
      * @var Container
      */
     protected $app;
 
     /**
-     * Create a new instance
+     * Create a new instance.
      *
      * @param Container $app
      */

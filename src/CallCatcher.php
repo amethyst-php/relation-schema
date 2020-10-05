@@ -2,11 +2,11 @@
 
 namespace Amethyst;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
- * Catch all calls made to the query builder
+ * Catch all calls made to the query builder.
  */
 class CallCatcher
 {
@@ -16,7 +16,7 @@ class CallCatcher
     public $calls;
 
     /**
-     * Create a new instance
+     * Create a new instance.
      *
      * @param Model $model
      */
@@ -28,10 +28,10 @@ class CallCatcher
     }
 
     /**
-     * Register all calls
+     * Register all calls.
      *
      * @param string $method
-     * @param array $parameters
+     * @param array  $parameters
      */
     public function __call(string $method, array $parameters)
     {
