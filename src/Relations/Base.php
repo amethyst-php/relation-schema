@@ -2,12 +2,12 @@
 
 namespace Amethyst\Relations;
 
+use Amethyst\Concerns\GetInstanceModelByName;
 use Amethyst\Models\RelationSchema;
 use Illuminate\Database\Eloquent\Model;
 use Railken\Bag;
 use Railken\EloquentMapper\Scopes\FilterScope;
 use Symfony\Component\Yaml\Yaml;
-use Amethyst\Concerns\GetInstanceModelByName;
 
 abstract class Base
 {

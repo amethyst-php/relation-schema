@@ -2,13 +2,13 @@
 
 namespace Amethyst\Services;
 
+use Amethyst\Concerns\GetInstanceModelByName;
 use Amethyst\Core\Exceptions\DataNotFoundException;
 use Amethyst\Models\RelationSchema;
 use Amethyst\Relations\Base;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
-use Amethyst\Concerns\GetInstanceModelByName;
 
 class RelationSchemaService
 {
