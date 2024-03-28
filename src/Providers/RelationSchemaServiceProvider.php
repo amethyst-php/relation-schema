@@ -40,5 +40,7 @@ class RelationSchemaServiceProvider extends CommonServiceProvider
         parent::boot();
 
         RelationSchema::observe(RelationSchemaObserver::class);
+
+        app('amethyst.relation-schema')->boot();
     }
 }
