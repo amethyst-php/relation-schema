@@ -1,14 +1,13 @@
 # Relation Schema
 
-[![Action Status](https://github.com/amethyst-php/relation-schema/workflows/test/badge.svg)](https://github.com/amethyst-php/relation-schema/actions)
+[![Action Status](https://github.com/amethyst-php/relation-schema/workflows/Test/badge.svg)](https://github.com/amethyst-php/relation-schema/actions)
 [![Amethyst](https://img.shields.io/badge/package-Amethyst-7e57c2)](https://github.com/amethyst-php/amethyst)
 
 Create your own custom relations between Eloquent Models without altering the code.
 
 # Requirements
 
-- PHP from 7.2 to 7.4
-- Laravel from 5.8 to 8.x
+- PHP from 8.2 and later
 
 ## Installation
 
