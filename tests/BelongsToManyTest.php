@@ -9,7 +9,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Yaml\Yaml;
 
-class BelongsToManyTest extends BaseTest
+class BelongsToManyTest extends Base
 {
     public function startingBelongsToMany($tableName = 'bar_foo')
     {

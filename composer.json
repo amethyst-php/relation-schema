@@ -4,13 +4,13 @@
     "keywords": ["laravel", "amethyst", "relation-schema"],
     "license": "MIT",
     "require": {
-        "php": ">=7.2",
-        "amethyst/core": "0.2.*",
-        "amethyst/relation": "0.2.*"
+        "php": ">=8.2",
+        "amethyst/core": "0.3.*",
+        "amethyst/relation": "0.3.*"
     },
     "require-dev": {
         "orchestra/testbench": "*",
-        "amethyst/foo": "0.2.*"
+        "amethyst/foo": "0.3.*"
     },
     "autoload": {
         "psr-4" : {

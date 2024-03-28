@@ -6,23 +6,28 @@ use Amethyst\Models\RelationSchema;
 
 class HasMany extends Base
 {
-    protected $name = 'has_many';
+    protected $name = 'hasMany';
 
     public function define(RelationSchema $relationSchema)
     {
+
         $payload = $this->extractPayload($relationSchema);
-
         $data = $this->getInstanceModelByName($relationSchema->data);
-        $target = $this->getInstanceModelByName($payload->require('target'));
-        $method = $this->getName();
 
-        $relation = $data->$method(
-            $relationSchema->name,
-            $target,
-            $payload->get('foreignKey'),
-            $payload->get('localKey')
-        );
+        $data::resolveRelationUsing($relationSchema->name, function ($model) use ($payload) {
 
-        $this->filterTarget($relation, $target, $payload->get('filter'));
+            $target = $this->getInstanceModelByName($payload->require('target'));
+            $method = $this->getName();
+
+            $relation = $model->$method(
+                $target,
+                $payload->get('foreignKey'),
+                $payload->get('localKey')
+            );
+
+            $this->filterTarget($relation, $target, $payload->get('filter'));
+
+            return $relation;
+        });
     }
 }

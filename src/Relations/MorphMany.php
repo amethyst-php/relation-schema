@@ -6,22 +6,26 @@ use Amethyst\Models\RelationSchema;
 
 class MorphMany extends Base
 {
-    protected $name = 'morph_many';
+    protected $name = 'morphMany';
 
     public function define(RelationSchema $relationSchema)
     {
         $payload = $this->extractPayload($relationSchema);
-
         $data = $this->getInstanceModelByName($relationSchema->data);
-        $target = $this->getInstanceModelByName($payload->require('target'));
-        $method = $this->getName();
 
-        $relation = $data->$method(
-            $relationSchema->name,
-            $target,
-            $payload->get('morphType', $payload->require('target'))
-        );
+        $data::resolveRelationUsing($relationSchema->name, function ($model) use ($payload) {
 
-        $this->filterTarget($relation, $target, $payload->get('filter'));
+            $target = $this->getInstanceModelByName($payload->require('target'));
+            $method = $this->getName();
+
+            $relation = $model->$method(
+                $target,
+                $payload->get('morphType', $payload->require('target'))
+            );
+
+            $this->filterTarget($relation, $target, $payload->get('filter'));
+
+            return $relation;
+        });
     }
 }

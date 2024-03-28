@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Yaml\Yaml;
 
-class HasManyTest extends BaseTest
+class HasManyTest extends Base
 {
     public function startingHasMany($column, $params = [])
     {
@@ -85,7 +85,7 @@ class HasManyTest extends BaseTest
             'payload' => Yaml::dump([
                 'target'     => 'foo',
                 'foreignKey' => 'parent_id',
-                'filter'     => "children.name ct 'Red' and children.name != 'Blue'",
+                'filter'     => "name ct 'Red' and name != 'Blue'",
             ]),
         ]);
 
@@ -106,10 +106,10 @@ class HasManyTest extends BaseTest
         $this->assertEquals($redChild2->name, $parent->children[1]->name);
         $this->assertEquals($blueChild->name, $parent->children[2]->name);
         $this->assertEquals(
-            "select * from `foo` where `foo`.`parent_id` = '2' and `foo`.`parent_id` is not null and `foo`.`id` in (select `foo`.`id` from `foo` left join `foo` as `children` on `foo`.`id` = `children`.`parent_id` and `children`.`deleted_at` is null where (`children`.`name` like '%Red%' and `children`.`name` != 'Blue')) and `foo`.`deleted_at` is null",
+            "select * from `foo` where `foo`.`parent_id` = '2' and `foo`.`parent_id` is not null and `foo`.`id` in (select `foo`.`id` from `foo` where (`foo`.`name` like '%Red%' and `foo`.`name` != 'Blue')) and `foo`.`deleted_at` is null",
             $this->getQuery($parent->redChildren())
         );
-        $this->assertEquals(0, $parent->redChildren->count());
-        $this->assertEquals(1, $grandParent->redChildren->count());
+        $this->assertEquals(2, $parent->redChildren->count());
+        $this->assertEquals(0, $grandParent->redChildren->count());
     }
 }

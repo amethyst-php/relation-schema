@@ -2,14 +2,7 @@
 
 namespace Amethyst\Tests;
 
-use Amethyst\Models\Bar;
-use Amethyst\Models\Foo;
-use Amethyst\Models\RelationSchema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-use Symfony\Component\Yaml\Yaml;
-
-class MorphToTest extends Base
+class BarFoo extends Base
 {
     public function startingMorphTo($columnId, $columnType, $params = [])
     {
@@ -66,8 +59,8 @@ class MorphToTest extends Base
     public function testMorphToWithKeys()
     {
         $this->startingMorphTo('pi', 'pt', [
-            'keyName'   => 'pt',
-            'keyId'   => 'pi',
+            'foreignKey' => 'pt',
+            'ownerKey'   => 'pi',
         ]);
 
         $parent = Bar::create(['name' => 'Parent']);

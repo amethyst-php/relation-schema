@@ -7,7 +7,7 @@ use Amethyst\Models\Foo;
 use Amethyst\Models\RelationSchema;
 use Symfony\Component\Yaml\Yaml;
 
-class MorphToManyTest extends BaseTest
+class MorphToManyTest extends Base
 {
     public function testBasicMorphDef()
     {

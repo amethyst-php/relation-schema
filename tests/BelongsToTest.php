@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Yaml\Yaml;
 
-class BelongsToTest extends BaseTest
+class BelongsToTest extends Base
 {
     public function startingBelongsTo($column, $params = [])
     {

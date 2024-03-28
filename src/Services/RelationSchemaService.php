@@ -96,12 +96,17 @@ class RelationSchemaService
     {
         $model = $this->getInstanceModelByName($relation->data);
 
-        if (!$model || !(new $model())->hasDynamicRelation($oldName ? $oldName : $relation->name)) {
+        if (!$model) {
             // Silent error, no needs to interrupt application for user-error
+
             return;
         }
 
-        $model->removeRelation($oldName ? $oldName : $relation->name);
+        $name = $oldName ? $oldName : $relation->name;
+
+        $model::resolveRelationUsing($name, function($model) {
+            return null;
+        });
 
         $this->generate($relation->data);
     }

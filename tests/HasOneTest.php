@@ -8,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\Yaml\Yaml;
 
-class HasOneTest extends BaseTest
+class HasOneTest extends Base
 {
     public function startingHasMany($column, $params = [])
     {
