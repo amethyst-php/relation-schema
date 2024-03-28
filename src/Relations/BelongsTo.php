@@ -20,7 +20,7 @@ class BelongsTo extends Base
             $method = $this->getName();
 
             return $model->$method(
-                $target, 
+                $target,
                 $foreignKey
             );
         });

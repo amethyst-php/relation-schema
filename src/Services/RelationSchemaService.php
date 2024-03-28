@@ -104,7 +104,7 @@ class RelationSchemaService
 
         $name = $oldName ? $oldName : $relation->name;
 
-        $model::resolveRelationUsing($name, function($model) {
+        $model::resolveRelationUsing($name, function ($model) {
             return null;
         });
 
