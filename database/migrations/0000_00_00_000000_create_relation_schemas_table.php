@@ -13,7 +13,7 @@ class CreateRelationSchemasTable extends Migration
     public function up()
     {
         Schema::create(Config::get('amethyst.relation-schema.data.relation-schema.table'), function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('data');
             $table->string('name');
             $table->text('description')->nullable();
