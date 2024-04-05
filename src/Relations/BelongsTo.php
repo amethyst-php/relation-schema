@@ -19,6 +19,7 @@ class BelongsTo extends Base
             $foreignKey = $payload->get('foreignKey', $relationSchema->name."_id");
             $method = $this->getName();
 
+            //print_r("Defining... {$relationSchema->data}{$relationSchema->name}:$method:{$payload->require('target')}\n");
             return $model->$method(
                 $target,
                 $foreignKey

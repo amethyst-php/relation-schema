@@ -47,7 +47,7 @@ class MorphToMany extends Base
 
             if ($payload->get('inversedBy')) {
                 app('eloquent.mapper')->addInversedRelation(
-                    $data,
+                    $this->getInstanceModelByName($relationSchema->data),
                     $target,
                     $relationSchema->name,
                     $payload->get('inversedBy')

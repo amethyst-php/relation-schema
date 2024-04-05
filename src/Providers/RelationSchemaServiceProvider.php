@@ -39,6 +39,8 @@ class RelationSchemaServiceProvider extends CommonServiceProvider
     {
         parent::boot();
 
+        app('eloquent.mapper')->boot();
+
         RelationSchema::observe(RelationSchemaObserver::class);
 
         app('amethyst.relation-schema')->boot();
